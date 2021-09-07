@@ -1,0 +1,6 @@
+<form id="custodian_message_form" style="min-height: 300px;" action="{{ path('rx_admin_custodian_message', { 'id': form.vars.data.custodian.id, 'type': form.vars.data.type }) }}" method="POST">
+    {{ form_errors(form.message) }}
+        {{ form_label(form.message, ' ') }}
+        {{ form_widget(form.message, { 'attr': { 'rows': '10', 'placeholder': 'Instructions text' } }) }}
+        {{ form_rest(form) }}
+</form>

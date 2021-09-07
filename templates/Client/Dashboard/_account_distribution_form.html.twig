@@ -1,0 +1,48 @@
+<form id="distribute_account_form" class="def-form" action="{{ path('rx_client_dashboard_account_distribution', { 'account_id': account.id, 'type': type }) }}" method="post">
+        {% if type == 'one_time' %}
+            <h4>How would you like to receive money from this account?</h4>
+        {% endif %}
+    <div id="auto_distribution" class="inner-ch">
+        <div class="bank-info well">
+            <h5>Bank Information</h5>
+            {% set bank_field = form.bankInformation %}
+            {% set is_one_bank = (form.vars.data and not form.vars.data.bankInformation and form.bankInformation|length == 1) ? true : false %}
+            {% block bank_info %}
+
+                {% if bank_field|length > 0 %}
+                    <div class="form-group row">
+                        <div class="span">
+                            {{ form_label(bank_field, 'Current bank(s) on file:', { 'label_attr': {'class': 'control-label'}}) }}
+                            <div class="controls">
+                                {% for radio in bank_field %}
+                                    <div class="bank-item">
+                                        <label for="{{ radio.vars.id }}">
+                                            {% if is_one_bank %}
+                                                {{ form_widget(radio, { 'attr': { 'checked': 'checked' } }) }}
+                                            {% else %}
+                                                {{ form_widget(radio) }}
+                                            {% endif %}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="empty">No banks currently on file.</p>
+                    <div class="form-group row">
+                        <div class="span">
+                            <a class="add-new-bank-btn" data-type="account-management" href="javascript:void(0);">Add New Bank Account</a>
+                        </div>
+                    </div>
+                    <div class="add-new-bank-form"></div>
+                {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+    {{ form_rest(form) }}
+    <div class="form-actions">
+        {{ form_widget(form._token) }}
+        <input type="submit" class="btn btn-primary"  name="continue" value="Continue" />
+    </div>
+</form>

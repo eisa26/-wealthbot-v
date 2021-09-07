@@ -1,0 +1,22 @@
+{% block subject %}
+    Closing account.
+{% endblock %}
+{% block body_html %}
+    {% spaceless %}
+            Client <strong>{{ client.profile.firstName }} {{ client.profile.lastName }}</strong> closes the account. <br/>
+            <strong>Accounts:</strong>
+            <ol type=1>
+                {% for account in accounts %}
+                    <li>{{ account.accountNumber }} [{{ account.accountDescription }}]</li>
+                {% endfor %}
+            </ol> <br/>
+
+            <strong>Reasons:</strong>
+            <ul>
+                {% for message in close_messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul> <br/>
+    {% endspaceless %}
+{% endblock %}
+{% block body_text %}{% endblock %}

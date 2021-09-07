@@ -1,0 +1,61 @@
+imports:
+    - { resource: 'services/user.yaml' }
+    - { resource: 'services/admin.yaml' }
+    - { resource: 'services/client.yaml'  }
+    - { resource: 'services/mailer.yaml' }
+    - { resource: 'services/ria.yaml' }
+    - { resource: 'services/signature.yaml' }
+parameters:
+    mailer_url: "%env(resolve:MAILER_URL)%"
+    jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
+    locale: "%env(resolve:APP_LOCALE)%"
+    secret: "%env(resolve:APP_SECRET)%"
+    site_domain: "%env(resolve:APP_HOST)%"
+    pager_per_page: "%env(resolve:PAGER_PP)%"
+    uploads_dir: '%kernel.root_dir%/../public/uploads'
+    uploads_ria_company_logos_dir: '%uploads_dir%/ria_company_logos'
+    uploads_documents_dir: '%uploads_dir%/documents'
+    uploads_trade_files_dir: '%uploads_dir%/trade_files'
+    active_jobs_dir: '%kernel.root_dir%/../system/incoming_files/active_jobs'
+    wkhtmltopdf_path: "%env(resolve:WKHTMLTOPDF_PATH)%"
+
+    docusign_username: "%env(resolve:docusign_username)%"
+    docusign_password: "%env(resolve:docusign_password)%"
+    docusign_integrator_key: "%env(resolve:docusign_integrator_key)%"
+    docusign_personal_account: "%env(resolve:docusign_personal_account)%"
+    docusign_ira_account: "%env(resolve:docusign_ira_account)%"
+    docusign_electronic_funds_transfer_form: "%env(resolve:docusign_electronic_funds_transfer_form)%"
+    docusign_account_transfer_form: "%env(resolve:docusign_account_transfer_form)%"
+    docusign_check_request: "%env(resolve:docusign_check_request)%"
+    docusign_wire_instructions: "%env(resolve:docusign_wire_instructions)%"
+    docusign_ira_distribution_form: "%env(resolve:docusign_ira_distribution_form)%"
+    docusign_beneficiary_designation_form: "%env(resolve:docusign_beneficiary_designation_form)%"
+    docusign_brand_id: "%env(resolve:docusign_brand_id)%"
+
+    tradier_api_key: "%env(resolve:TRADIER_API_KEY)%"
+    tradier_api_secret: "%env(resolve:TRADIER_API_SECRET)%"
+    tradier_sandbox: "%env(resolve:TRADIER_SANDBOX)%"
+services:
+    # default configuration for services in *this* file
+    _defaults:
+#        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\Command\:
+        resource: '../src/Command'
+    #    exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,Twig,}'
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    App\Api\:
+        resource: '../src/Api'
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: true
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

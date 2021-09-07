@@ -1,0 +1,36 @@
+{% extends '/Ria/Dashboard/index.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/ria/ria.fees.table.js') }}"></script>
+    <script src="{{ asset('js/ria/ria.portfolio.management.js') }}"></script>
+    <script src="{{ asset('js/ria/ria.change_profile.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h1>Change Profile</h1>
+
+    <nav class="nav nav-tabs " id="myTab">
+        <li class="{{ active_tab == 'profile' ? 'active nav-item' : 'nav-item' }}">
+            <a class="nav-link" data-toggle="tab" href="#profile">My Profile</a>
+        </li>
+        <li class="{{ active_tab == 'change_password' ? 'active nav-item' : 'nav-item' }}">
+            <a class="nav-link" data-toggle="tab" href="#update_password">Update password</a>
+        </li>
+        <li class="{{ active_tab == 'alerts' ? 'active nav-item' : 'nav-item' }}">
+            <a class="nav-link" data-toggle="tab" href="#alerts">Alerts</a>
+        </li>
+    </nav>
+
+    <div class="tab-content change-profile">
+        <div class="tab-pane {{ active_tab == 'profile' ? 'active' : '' }}" id="profile">
+            {% include '/Ria/ChangeProfile/_profile_form.html.twig' with { 'form': profileForm } %}
+        </div>
+        <div class="tab-pane {{ active_tab == 'change_password' ? 'active' : '' }}" id="update_password">
+            {% include '/Ria/ChangeProfile/_update_password.html.twig' with { 'form': updatePasswordForm } %}
+        </div>
+        <div class="tab-pane {{ active_tab == 'alerts' ? 'active' : '' }}" id="alerts">
+            {% include '/Ria/ChangeProfile/_alerts_configuration_form.html.twig' with { 'form': alertsConfigurationForm } %}
+        </div>
+    </div>
+{% endblock %}

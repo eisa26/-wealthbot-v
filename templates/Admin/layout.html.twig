@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>
+        {{ (block("title")) ?? '' }} {{ 'wealthbot.io' | trans }}
+    </title>
+
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/admin-styles.css">
+    <link rel="stylesheet" href="/css/icons.css"/>
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="/css/jquery-ui-1.9.2.custom.min.css"/>
+    {% endblock %}
+
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    <meta id="viewport" name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{path('rx_admin_homepage')}}">{{ 'wealthbot.io' | trans }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li {{ app.request.attributes.get('_route') == 'rx_admin_homepage' ? 'class="active nav-item"' : 'nav-item' }}>
+                <a class="nav-link" href="{{ path('rx_admin_homepage') }}">Home</a>
+            </li>
+
+            <li class="nav-item"><a class="nav-link"  href="{{ path('rx_admin_ria_index') }}">Advisors</a></li>
+
+            <li class="nav-item"><a class="nav-link"  href="{{ path('rx_admin_clients_index') }}">Clients</a></li>
+
+            <li class="nav-item"><a class="nav-link"  href="{{ path('rx_admin_securities') }}">Securities</a></li>
+
+            <li class="nav-item"><a class="nav-link"  href="{{ path('rx_admin_billing') }}">Billing</a></li>
+
+         {#   <li class="nav-item"><a class="nav-link"  href="{{ path('rx_admin_rebalancer') }}">Rebalancer</a></li> #}
+
+            <li class="nav-item"><a class="nav-link"  href="{{ path('rx_admin_custodians') }}">Custodians</a></li>
+
+         {#   <li {{ app.request.attributes.get('_route') == 'rx_admin_models' ? 'class="active nav-item"' : 'nav-item' }}>
+                <a class="nav-link"  href="{{ path('rx_admin_models') }}">Models</a>
+            </li>
+
+            <li {{ app.request.attributes.get('_route') == 'rx_admin_risks' ? 'class="active nav-item"' : 'nav-item' }}>
+                <a class="nav-link"  href="{{ path('rx_admin_risks') }}">Risks</a>
+            </li>
+            #}
+
+            <li {{ app.request.attributes.get('_route') == 'rx_admin_general_settings' ? 'class="active nav-item"' : 'nav-item' }}>
+                <a class="nav-link"  href="{{ path('rx_admin_general_settings') }}">Settings</a>
+            </li>
+
+            <li class="nav-item"><a class="nav-link"  href="{{ path('rx_admin_users') }}">Admin</a></li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.username|capitalize}}</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <h6 class="dropdown-header">Menu header</h6>
+                    <a class="dropdown-item"  href="{{ path('rx_admin_general_settings') }}"><i class="icon-wrench"></i>&nbsp;Settings</a>
+                    <a class="dropdown-item" href="{{ path('rx_admin_logout') }}"><i class="icon-off"></i>&nbsp;Logout</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid" style="margin-top: 50px;">
+    {% block flash_messages %}
+        {% for type, flashMessages in app.session.flashbag.all() %}
+            {% for flashMessage in flashMessages %}
+                <div class="alert alert-{{ type }}">
+                    {{ flashMessage }}
+                    <a class="close" data-dismiss="alert" href="#">&times;</a>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endblock %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block modal_dialog %}
+    <div id="modal_dialog" class="modal longModal">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3></h3>
+        </div>
+        <div class="modal-body">
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn save-modal-form-btn btn-primary">Save</button>
+            <a href="#" class="btn btn-primary"  data-dismiss="modal" aria-hidden="true">Cancel</a>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery/jquery-ui-1.9.2.custom.min.js"></script>
+    <script type="text/javascript" src="/js/jquery/jquery.form.js"></script>
+    <script type="text/javascript" src="/js/jquery/jquery.autoNumeric.js"></script>
+    <script type="text/javascript" src="/js/jquery/jquery.placeholder.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/bootstrap.bundle.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/typeahead.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/inputmask/jquery.inputmask.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/inputmask/jquery.inputmask.extensions.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/typeahead.js') }}"></script>
+    <script src="{{ asset('js/backbone.marionette/underscore.js') }}"></script>
+    <script src="{{ asset('js/backbone.marionette/backbone.js') }}"></script>
+    <script src="{{ asset('js/backbone.marionette/backbone.marionette.min.js') }}"></script>
+    <script src="{{ asset('js/src/app.js') }}"></script>
+    <script src="{{ asset('js/src/plugin/backbone.alert.js') }}"></script>
+    <script src="{{ asset('js/src/plugin/errorHandler.js') }}"></script>
+    <script src="{{ asset('js/src/util/util.js') }}"></script>
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% endblock %}
+</body>
+</html>

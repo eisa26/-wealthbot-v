@@ -1,0 +1,20 @@
+{# % form_theme scheduledDistributionForm '/Ria/Dashboard/account_settings_form_theme.html.twig' % #}
+<form method="post" action="{{
+        path('rx_ria_dashboard_account_settings', {
+            'account_id': app.request.get('account_id')
+        })
+    }}">
+
+    {{ form_errors(form) }}
+    {{ form_errors(oneTimeDistributionForm) }}
+    {{ form_errors(scheduledDistributionForm) }}
+
+    {{ form_widget(form) }}
+    {{ form_widget(oneTimeDistributionForm) }}
+    {{ form_errors(scheduledDistributionForm) }}
+
+
+    {{ form_rest(oneTimeDistributionForm) }}
+    {{ form_rest(scheduledDistributionForm) }}
+    {{ form_rest(form) }}
+</form>

@@ -1,0 +1,34 @@
+{% extends '/Client/layout_styled.html.twig' %}
+
+{% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('js/ria/ria.model.chart.js') }}"></script>
+        <script src="{{ asset('js/client/client.dashboard.gainlosses.js') }}"></script>
+        <script src="{{ asset('js/client/client.account_selector.js') }}"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+{% endblock %}
+
+{% block body %}
+    {% set is_client_view_value = is_client_view is defined ? is_client_view : true %}
+            {% include '/Client/Dashboard/_nav.html.twig' with {'action' : layout_variables.action, 'is_client_view': is_client_view_value} %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+            <div id="content" class="offset-1 col-10 margin-top-7">
+
+                <hr />
+                {% block content %}
+                    {% include '/Client/Dashboard/_index_content.html.twig' with {
+                        'account_values': account_values,
+                        'is_init_rebalance': is_init_rebalance,
+                        'client': client,
+                        'is_client_view': is_client_view,
+                        'sas_cash_form': sas_cash_form
+                    } %}
+                {% endblock %}
+            </div><!--/.fluid-container-->
+        </div>
+    </div>
+    </div>
+{% endblock %}

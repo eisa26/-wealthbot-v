@@ -1,0 +1,56 @@
+{% extends '/Ria/layout_themed.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link id="base-style" href="{{ asset('/css/bootstrap-glyphicons.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('/js/theme-js/jquery.flot.min.js') }}"></script>
+    <script src="{{ asset('/js/theme-js/jquery.flot.pie.min.js') }}"></script>
+    <script src="{{ asset('/js/theme-js/jquery.flot.stack.js') }}"></script>
+    <script src="{{ asset('/js/theme-js/jquery.flot.resize.min.js') }}"></script>
+    <script src="{{ asset('/js/theme-js/jquery.flot.tooltip.min.js') }}"></script>
+    <script src="{{ asset('/js/theme-js/jquery.flot.crosshair.js') }}"></script>
+    <script src="{{ asset('/js/theme-js/jquery.dataTables.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('js/ria/Util.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/backbone.marionette/underscore.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/ria/ria.model.chart.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/ria/ria.models.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/ria/ria.workflow.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/ria/ria.dashboard.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h1>{{ company_information.name }} Dashboard</h1>
+
+    <div id="swappable_content" data-url="{{ path('rx_ria_dashboard_swap_boxes') }}" style="display: none;" data-sequence="{{ blocks_sequence }}">
+        <div class="row">
+            <div class="col-6 dashboard-box" data-id="0">
+                {{ render(controller('App\\Controller\\Ria\\WorkflowController:index', {'with_layout': false})) }}
+            </div>
+
+            <div class="col-6 dashboard-box" data-id="1">
+                {% include '/Ria/Dashboard/_workflow_box.html.twig' with {
+                'paperwork_counts': paperwork_counts,
+                'portfolios_counts': portfolios_counts
+                } %}
+            </div>
+        </div>
+
+        {#<div class="row">
+            <div class="col-6 dashboard-box" data-id="2">
+                {% include '/Ria/Dashboard/_firm_metrics_box.html.twig' with { 'firm_metrics': firm_metrics } %}
+            </div>
+
+            <div class="col-6 dashboard-box" data-id="3">
+                {% include '/Ria/Dashboard/_analytics_box.html.twig' with { 'securities_statistic': securities_statistic } %}
+            </div>
+        </div>#}
+    </div>
+{% endblock %}
